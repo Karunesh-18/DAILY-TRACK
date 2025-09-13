@@ -1,5 +1,17 @@
 package com.dailytrack.data.repository
 
+// ...existing code...
+import com.dailytrack.data.database.dao.StudentDao
+import com.dailytrack.data.database.entities.Student
+import kotlinx.coroutines.flow.Flow
+import java.util.UUID
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class StudentRepository @Inject constructor(
+    private val studentDao: StudentDao
+) {
     companion object {
         val bulkStudentList = listOf(
             "CSE071" to "HARI VIGNESH S",
@@ -84,18 +96,6 @@ package com.dailytrack.data.repository
             addStudent(name, rollNo)
         }
     }
-
-import com.dailytrack.data.database.dao.StudentDao
-import com.dailytrack.data.database.entities.Student
-import kotlinx.coroutines.flow.Flow
-import java.util.UUID
-import javax.inject.Inject
-import javax.inject.Singleton
-
-@Singleton
-class StudentRepository @Inject constructor(
-    private val studentDao: StudentDao
-) {
     
     fun getAllActiveStudents(): Flow<List<Student>> {
         return studentDao.getAllActiveStudents()
