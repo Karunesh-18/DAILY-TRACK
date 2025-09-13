@@ -28,11 +28,41 @@ fun StudentsScreen(
     val students by viewModel.students.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
     
+    var showConfirmDialog by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
+        // Admin Button
+        Button(
+            onClick = { showConfirmDialog = true },
+            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+        ) {
+            Text("Replace All Students (Admin)")
+        }
+
+        if (showConfirmDialog) {
+            AlertDialog(
+                onDismissRequest = { showConfirmDialog = false },
+                title = { Text("Confirm Replace") },
+                text = { Text("Are you sure you want to remove all existing students and add the new list?") },
+                confirmButton = {
+                    Button(onClick = {
+                        showConfirmDialog = false
+                        viewModel.replaceAllWithBulkList()
+                    }) {
+                        Text("Yes, Replace")
+                    }
+                },
+                dismissButton = {
+                    Button(onClick = { showConfirmDialog = false }) {
+                        Text("Cancel")
+                    }
+                }
+            )
+        }
         // Search Bar
         OutlinedTextField(
             value = searchQuery,
