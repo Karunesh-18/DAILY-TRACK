@@ -82,13 +82,10 @@ fun AttendanceCard(
             ) {
                 AttendanceStatus.values().forEach { status ->
                     FilterChip(
-                        onClick = { 
-                            if (isEditable) {
-                                onStatusChange(status)
-                            }
-                        },
-                        label = { Text(status.name) },
                         selected = attendanceRecord?.status == status,
+                        onClick = { if (isEditable) onStatusChange(status) },
+                        label = { Text(status.name) },
+                        modifier = Modifier,
                         enabled = isEditable,
                         colors = FilterChipDefaults.filterChipColors(
                             selectedContainerColor = when (status) {
