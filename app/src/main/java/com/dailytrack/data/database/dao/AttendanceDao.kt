@@ -10,7 +10,6 @@ interface AttendanceDao {
     @Query("""
         SELECT s.*, ar.id as attendanceRecord_id, ar.studentId as attendanceRecord_studentId, 
                ar.date as attendanceRecord_date, ar.status as attendanceRecord_status, 
-               ar.leaveFormSubmitted as attendanceRecord_leaveFormSubmitted, 
                ar.createdAt as attendanceRecord_createdAt, ar.updatedAt as attendanceRecord_updatedAt
         FROM students s 
         LEFT JOIN attendance_records ar ON s.id = ar.studentId AND ar.date = :date

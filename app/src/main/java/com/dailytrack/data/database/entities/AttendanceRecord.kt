@@ -26,7 +26,6 @@ data class AttendanceRecord(
     val studentId: String,
     val date: String, // Format: yyyy-MM-dd
     val status: AttendanceStatus,
-    val leaveFormSubmitted: Boolean = false,
     val createdAt: Long = System.currentTimeMillis(),
     val updatedAt: Long = System.currentTimeMillis()
 )

@@ -18,7 +18,6 @@
     <string name="status_present">Present</string>
     <string name="status_absent">Absent</string>
     <string name="status_od">On Duty</string>
-    <string name="leave_form_submitted">Leave Form Submitted</string>
     
     <!-- Students Screen -->
     <string name="students_title">Student Management</string>

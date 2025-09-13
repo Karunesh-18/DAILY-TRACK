@@ -24,17 +24,14 @@ class AttendanceRepository @Inject constructor(
     suspend fun markAttendance(
         studentId: String, 
         date: String, 
-        status: AttendanceStatus,
-        leaveFormSubmitted: Boolean = false
+        status: AttendanceStatus
     ): Result<Unit> {
         return try {
             val existingRecord = attendanceDao.getAttendanceForStudentAndDate(studentId, date)
-            
             if (existingRecord != null) {
                 // Update existing record
                 val updatedRecord = existingRecord.copy(
                     status = status,
-                    leaveFormSubmitted = leaveFormSubmitted,
                     updatedAt = System.currentTimeMillis()
                 )
                 attendanceDao.updateAttendance(updatedRecord)
@@ -45,13 +42,11 @@ class AttendanceRepository @Inject constructor(
                     studentId = studentId,
                     date = date,
                     status = status,
-                    leaveFormSubmitted = leaveFormSubmitted,
                     createdAt = System.currentTimeMillis(),
                     updatedAt = System.currentTimeMillis()
                 )
                 attendanceDao.insertAttendance(newRecord)
             }
-            
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
@@ -66,7 +61,6 @@ class AttendanceRepository @Inject constructor(
                     studentId = data.studentId,
                     date = data.date,
                     status = data.status,
-                    leaveFormSubmitted = data.leaveFormSubmitted,
                     createdAt = System.currentTimeMillis(),
                     updatedAt = System.currentTimeMillis()
                 )
@@ -180,10 +174,8 @@ class AttendanceRepository @Inject constructor(
                     studentId = student.id,
                     rollNo = student.rollNo,
                     name = student.name,
-                    status = record.status,
-                    leaveFormSubmitted = record.leaveFormSubmitted
+                    status = record.status
                 )
-                
                 when (record.status) {
                     AttendanceStatus.ABSENT -> absentees.add(studentStatus)
                     AttendanceStatus.OD -> odStudents.add(studentStatus)
@@ -204,16 +196,14 @@ class AttendanceRepository @Inject constructor(
 data class AttendanceData(
     val studentId: String,
     val date: String,
-    val status: AttendanceStatus,
-    val leaveFormSubmitted: Boolean = false
+    val status: AttendanceStatus
 )
 
 data class StudentStatus(
     val studentId: String,
     val rollNo: String,
     val name: String,
-    val status: AttendanceStatus,
-    val leaveFormSubmitted: Boolean
+    val status: AttendanceStatus
 )
 
 data class AttendanceReport(

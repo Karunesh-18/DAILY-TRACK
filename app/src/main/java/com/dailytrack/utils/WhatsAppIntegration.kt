@@ -112,8 +112,7 @@ class WhatsAppIntegration @Inject constructor() {
             if (report.absentees.isNotEmpty()) {
                 appendLine("❌ Absentees (${report.absentees.size}):")
                 report.absentees.forEach { student ->
-                    val leaveStatus = if (student.leaveFormSubmitted) "✅ Leave Form" else "❌ No Leave Form"
-                    appendLine("• ${student.rollNo} - ${student.name} ($leaveStatus)")
+                    appendLine("• ${student.rollNo} - ${student.name}")
                 }
                 // Add roll number summary line
                 val rollNumbers = report.absentees.joinToString(", ") { it.rollNo }
@@ -199,8 +198,7 @@ class WhatsAppIntegration @Inject constructor() {
                 appendLine("Total Absentees: ${absentees.size}")
                 appendLine()
                 absentees.forEach { student ->
-                    val leaveStatus = if (student.leaveFormSubmitted) "✅" else "❌"
-                    appendLine("• ${student.rollNo} - ${student.name} $leaveStatus")
+                    appendLine("• ${student.rollNo} - ${student.name}")
                 }
             }
         }
