@@ -1,3 +1,4 @@
+import kotlinx.coroutines.flow.first
 package com.dailytrack.data.repository
 
 // ...existing code...
