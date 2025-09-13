@@ -9,8 +9,11 @@ import com.dailytrack.utils.AttendanceGrade
 import com.dailytrack.utils.DateUtils
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class AnalyticsViewModel @Inject constructor(
     private val attendanceRepository: AttendanceRepository,
     private val attendanceCalculator: AttendanceCalculator,

@@ -6,8 +6,11 @@ import com.dailytrack.data.database.entities.Student
 import com.dailytrack.data.repository.StudentRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class StudentsViewModel @Inject constructor(
     private val studentRepository: StudentRepository
 ) : ViewModel() {

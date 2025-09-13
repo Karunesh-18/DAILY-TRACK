@@ -115,6 +115,10 @@ class WhatsAppIntegration @Inject constructor() {
                     val leaveStatus = if (student.leaveFormSubmitted) "✅ Leave Form" else "❌ No Leave Form"
                     appendLine("• ${student.rollNo} - ${student.name} ($leaveStatus)")
                 }
+                // Add roll number summary line
+                val rollNumbers = report.absentees.joinToString(", ") { it.rollNo }
+                appendLine()
+                appendLine("Roll numbers: $rollNumbers")
                 appendLine()
             }
             

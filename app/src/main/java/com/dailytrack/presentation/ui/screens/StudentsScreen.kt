@@ -22,7 +22,7 @@ import com.dailytrack.presentation.viewmodel.StudentsViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StudentsScreen(
-    viewModel: StudentsViewModel = viewModel()
+    viewModel: StudentsViewModel = androidx.hilt.navigation.compose.hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val students by viewModel.students.collectAsState()
