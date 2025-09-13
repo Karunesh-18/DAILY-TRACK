@@ -44,17 +44,14 @@ class AttendanceViewModel @Inject constructor(
         loadAttendanceData()
     }
     
-    fun markAttendance(studentId: String, status: AttendanceStatus, leaveFormSubmitted: Boolean = false) {
+    fun markAttendance(studentId: String, status: AttendanceStatus) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true)
-            
             val result = attendanceRepository.markAttendance(
                 studentId = studentId,
                 date = _selectedDate.value,
-                status = status,
-                leaveFormSubmitted = leaveFormSubmitted
+                status = status
             )
-            
             result.fold(
                 onSuccess = {
                     _uiState.value = _uiState.value.copy(
@@ -81,8 +78,7 @@ class AttendanceViewModel @Inject constructor(
                 com.dailytrack.data.repository.AttendanceData(
                     studentId = studentData.student.id,
                     date = _selectedDate.value,
-                    status = AttendanceStatus.PRESENT,
-                    leaveFormSubmitted = false
+                    status = AttendanceStatus.PRESENT
                 )
             }
             
