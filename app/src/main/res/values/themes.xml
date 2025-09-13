@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.DailyTrack" parent="Theme.Material3.DayNight">
+        <!-- Primary brand color -->
+        <item name="colorPrimary">#4CAF50</item>
+        <item name="colorPrimaryVariant">#388E3C</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        
+        <!-- Secondary brand color -->
+        <item name="colorSecondary">#26A69A</item>
+        <item name="colorSecondaryVariant">#00695C</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        
+        <!-- Status bar color -->
+        <item name="android:statusBarColor">#388E3C</item>
+        <!-- Customize your theme here -->
+    </style>
+
+    <style name="Theme.DailyTrack.NoActionBar" parent="Theme.DailyTrack">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+</resources>

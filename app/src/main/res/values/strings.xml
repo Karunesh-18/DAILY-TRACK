@@ -1,0 +1,80 @@
+<resources>
+    <string name="app_name">Daily Track</string>
+    
+    <!-- Navigation -->
+    <string name="nav_attendance">Attendance</string>
+    <string name="nav_students">Students</string>
+    <string name="nav_analytics">Analytics</string>
+    <string name="nav_settings">Settings</string>
+    
+    <!-- Attendance Screen -->
+    <string name="attendance_title">Daily Attendance</string>
+    <string name="attendance_date_today">Today</string>
+    <string name="attendance_mark_all_present">Mark All Present</string>
+    <string name="attendance_save">Save Attendance</string>
+    <string name="attendance_share_report">Share Report</string>
+    
+    <!-- Student Status -->
+    <string name="status_present">Present</string>
+    <string name="status_absent">Absent</string>
+    <string name="status_od">On Duty</string>
+    <string name="leave_form_submitted">Leave Form Submitted</string>
+    
+    <!-- Students Screen -->
+    <string name="students_title">Student Management</string>
+    <string name="students_add">Add Student</string>
+    <string name="students_search">Search students...</string>
+    <string name="student_name">Student Name</string>
+    <string name="student_roll_no">Roll Number</string>
+    <string name="student_save">Save Student</string>
+    <string name="student_edit">Edit Student</string>
+    <string name="student_delete">Delete Student</string>
+    
+    <!-- Analytics Screen -->
+    <string name="analytics_title">Attendance Analytics</string>
+    <string name="analytics_class_average">Class Average</string>
+    <string name="analytics_total_students">Total Students</string>
+    <string name="analytics_present_today">Present Today</string>
+    <string name="analytics_absent_today">Absent Today</string>
+    <string name="analytics_percentage">Attendance Percentage</string>
+    <string name="analytics_classes_for_75">Classes needed for 75%</string>
+    
+    <!-- WhatsApp Integration -->
+    <string name="whatsapp_share_title">Share Attendance Report</string>
+    <string name="whatsapp_not_installed">WhatsApp is not installed</string>
+    <string name="whatsapp_share_failed">Failed to share report</string>
+    
+    <!-- Dialog Messages -->
+    <string name="dialog_confirm">Confirm</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_delete_student_title">Delete Student</string>
+    <string name="dialog_delete_student_message">Are you sure you want to delete this student? This action cannot be undone.</string>
+    
+    <!-- Error Messages -->
+    <string name="error_empty_name">Student name cannot be empty</string>
+    <string name="error_empty_roll_no">Roll number cannot be empty</string>
+    <string name="error_duplicate_roll_no">Roll number already exists</string>
+    <string name="error_loading_data">Error loading data</string>
+    <string name="error_saving_data">Error saving data</string>
+    
+    <!-- Success Messages -->
+    <string name="success_student_added">Student added successfully</string>
+    <string name="success_student_updated">Student updated successfully</string>
+    <string name="success_student_deleted">Student deleted successfully</string>
+    <string name="success_attendance_saved">Attendance saved successfully</string>
+    
+    <!-- Date Format -->
+    <string name="date_format_display">MMM dd, yyyy</string>
+    <string name="date_format_storage">yyyy-MM-dd</string>
+    
+    <!-- Content Descriptions -->
+    <string name="cd_attendance_icon">Attendance icon</string>
+    <string name="cd_students_icon">Students icon</string>
+    <string name="cd_analytics_icon">Analytics icon</string>
+    <string name="cd_settings_icon">Settings icon</string>
+    <string name="cd_back_button">Back button</string>
+    <string name="cd_add_button">Add button</string>
+    <string name="cd_edit_button">Edit button</string>
+    <string name="cd_delete_button">Delete button</string>
+    <string name="cd_share_button">Share button</string>
+</resources>
