@@ -1,10 +1,3 @@
-    // Admin action: replace all students with bulk list
-    fun replaceAllWithBulkList(onComplete: (() -> Unit)? = null) {
-        viewModelScope.launch {
-            studentRepository.replaceAllStudents(StudentRepository.bulkStudentList)
-            onComplete?.invoke()
-        }
-    }
 package com.dailytrack.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
