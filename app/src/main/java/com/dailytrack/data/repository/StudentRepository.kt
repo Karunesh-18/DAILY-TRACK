@@ -88,11 +88,11 @@ class StudentRepository @Inject constructor(
     suspend fun replaceAllStudents(newStudents: List<Pair<String, String>>) {
         // Deactivate all current students
         val activeStudents = getAllActiveStudents().first()
-        activeStudents.forEach { student ->
+        for (student in activeStudents) {
             deleteStudent(student.id)
         }
         // Add new students
-        newStudents.forEach { (rollNo, name) ->
+        for ((rollNo, name) in newStudents) {
             addStudent(name, rollNo)
         }
     }
