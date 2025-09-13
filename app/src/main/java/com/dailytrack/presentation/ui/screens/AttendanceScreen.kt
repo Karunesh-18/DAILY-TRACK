@@ -166,11 +166,10 @@ fun AttendanceScreen(
                 AttendanceCard(
                     student = studentData.student,
                     attendanceRecord = studentData.attendanceRecord,
-                    onStatusChange = { status, leaveFormSubmitted ->
+                    onStatusChange = { status ->
                         viewModel.markAttendance(
                             studentData.student.id,
-                            status,
-                            leaveFormSubmitted
+                            status
                         )
                     },
                     isEditable = viewModel.isToday(),

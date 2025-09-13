@@ -60,9 +60,7 @@ fun AttendanceCard(
     isEditable: Boolean,
     modifier: Modifier = Modifier
 ) {
-    var leaveFormSubmitted by remember { 
-        mutableStateOf(attendanceRecord?.leaveFormSubmitted ?: false) 
-    }
+    // Leave form state removed
     
     Card(
         modifier = modifier,
@@ -86,7 +84,7 @@ fun AttendanceCard(
                     FilterChip(
                         onClick = { 
                             if (isEditable) {
-                                onStatusChange(status, leaveFormSubmitted)
+                                onStatusChange(status)
                             }
                         },
                         label = { Text(status.name) },
@@ -103,31 +101,7 @@ fun AttendanceCard(
                 }
             }
             
-            if (attendanceRecord?.status == AttendanceStatus.ABSENT || 
-                (isEditable && attendanceRecord?.status == null)) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Checkbox(
-                        checked = leaveFormSubmitted,
-                        onCheckedChange = { 
-                            if (isEditable) {
-                                leaveFormSubmitted = it
-                                onStatusChange(
-                                    attendanceRecord?.status ?: AttendanceStatus.ABSENT, 
-                                    it
-                                )
-                            }
-                        },
-                        enabled = isEditable
-                    )
-                    Text(
-                        text = "Leave Form Submitted",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-            }
+            // Leave form UI removed
         }
     }
 }

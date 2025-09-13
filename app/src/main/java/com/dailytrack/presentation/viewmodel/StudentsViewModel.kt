@@ -41,43 +41,6 @@ class StudentsViewModel @Inject constructor(
         _searchQuery.value = query
     }
     
-    fun addStudent(name: String, rollNo: String) {
-        viewModelScope.launch {
-            if (name.isBlank()) {
-                _uiState.value = _uiState.value.copy(
-                    errorMessage = "Student name cannot be empty"
-                )
-                return@launch
-            }
-            
-            if (rollNo.isBlank()) {
-                _uiState.value = _uiState.value.copy(
-                    errorMessage = "Roll number cannot be empty"
-                )
-                return@launch
-            }
-            
-            _uiState.value = _uiState.value.copy(isLoading = true)
-            
-            val result = studentRepository.addStudent(name, rollNo)
-            
-            result.fold(
-                onSuccess = { student ->
-                    _uiState.value = _uiState.value.copy(
-                        isLoading = false,
-                        successMessage = "Student added successfully",
-                        showAddDialog = false
-                    )
-                },
-                onFailure = { error ->
-                    _uiState.value = _uiState.value.copy(
-                        isLoading = false,
-                        errorMessage = error.message ?: "Failed to add student"
-                    )
-                }
-            )
-        }
-    }
     
     fun updateStudent(student: Student, newName: String, newRollNo: String) {
         viewModelScope.launch {
@@ -148,13 +111,6 @@ class StudentsViewModel @Inject constructor(
         }
     }
     
-    fun showAddDialog() {
-        _uiState.value = _uiState.value.copy(showAddDialog = true)
-    }
-    
-    fun hideAddDialog() {
-        _uiState.value = _uiState.value.copy(showAddDialog = false)
-    }
     
     fun showEditDialog(student: Student) {
         _uiState.value = _uiState.value.copy(
@@ -200,7 +156,6 @@ data class StudentsUiState(
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
     val successMessage: String? = null,
-    val showAddDialog: Boolean = false,
     val showEditDialog: Boolean = false,
     val showDeleteDialog: Boolean = false,
     val selectedStudent: Student? = null

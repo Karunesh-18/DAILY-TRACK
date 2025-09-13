@@ -27,42 +27,16 @@ fun StudentsScreen(
     val uiState by viewModel.uiState.collectAsState()
     val students by viewModel.students.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
+
     
-    var showConfirmDialog by remember { mutableStateOf(false) }
+        // var showConfirmDialog by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Admin Button
-        Button(
-            onClick = { showConfirmDialog = true },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
-        ) {
-            Text("Replace All Students (Admin)")
-        }
 
-        if (showConfirmDialog) {
-            AlertDialog(
-                onDismissRequest = { showConfirmDialog = false },
-                title = { Text("Confirm Replace") },
-                text = { Text("Are you sure you want to remove all existing students and add the new list?") },
-                confirmButton = {
-                    Button(onClick = {
-                        showConfirmDialog = false
-                        viewModel.replaceAllWithBulkList()
-                    }) {
-                        Text("Yes, Replace")
-                    }
-                },
-                dismissButton = {
-                    Button(onClick = { showConfirmDialog = false }) {
-                        Text("Cancel")
-                    }
-                }
-            )
-        }
         // Search Bar
         OutlinedTextField(
             value = searchQuery,
@@ -74,18 +48,6 @@ fun StudentsScreen(
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
         )
-        
-        Spacer(modifier = Modifier.height(16.dp))
-        
-        // Add Student Button
-        Button(
-            onClick = { viewModel.showAddDialog() },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Icon(Icons.Default.Add, contentDescription = null)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(stringResource(R.string.students_add))
-        }
         
         Spacer(modifier = Modifier.height(16.dp))
         
@@ -124,18 +86,7 @@ fun StudentsScreen(
     }
     
     // Add Student Dialog
-    if (uiState.showAddDialog) {
-        StudentDialog(
-            title = stringResource(R.string.students_add),
-            studentName = "",
-            studentRollNo = "",
-            onDismiss = { viewModel.hideAddDialog() },
-            onConfirm = { name, rollNo ->
-                viewModel.addStudent(name, rollNo)
-            },
-            isLoading = uiState.isLoading
-        )
-    }
+
     
     // Edit Student Dialog
     if (uiState.showEditDialog && uiState.selectedStudent != null) {

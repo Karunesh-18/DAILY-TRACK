@@ -1,21 +1,14 @@
+package com.dailytrack.util
 
-package com.dailytrack.data.repository
-import kotlinx.coroutines.flow.first
-
-// ...existing code...
+import android.content.Context
 import com.dailytrack.data.database.dao.StudentDao
 import com.dailytrack.data.database.entities.Student
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.runBlocking
 import java.util.UUID
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class StudentRepository @Inject constructor(
-    private val studentDao: StudentDao
-) {
-    companion object {
-        val bulkStudentList = listOf(
+object BulkStudentInsert {
+    fun insertAll(context: Context, studentDao: StudentDao) {
+        val students = listOf(
             "CSE071" to "HARI VIGNESH S",
             "CSE072" to "HARINATH S",
             "CSE073" to "HARINI.C",
@@ -85,68 +78,16 @@ class StudentRepository @Inject constructor(
             "CSE139" to "MOHAMMED SUHAIL.M",
             "CSE140" to "MOHAN KAARTHICK C"
         )
-    }
-    // Bulk replace all students
-    suspend fun replaceAllStudents(newStudents: List<Pair<String, String>>) {
-        // Deactivate all current students
-        val activeStudents = getAllActiveStudents().first()
-        for (student in activeStudents) {
-            deleteStudent(student.id)
-        }
-        // Add new students
-        // (addStudent logic removed)
-    }
-    
-    fun getAllActiveStudents(): Flow<List<Student>> {
-        return studentDao.getAllActiveStudents()
-    }
-    
-    suspend fun getStudentById(studentId: String): Student? {
-        return studentDao.getStudentById(studentId)
-    }
-    
-    suspend fun getStudentByRollNo(rollNo: String): Student? {
-        return studentDao.getStudentByRollNo(rollNo)
-    }
-    
-    fun searchStudents(query: String): Flow<List<Student>> {
-        return studentDao.searchStudents(query)
-    }
-    
-    
-    suspend fun updateStudent(student: Student): Result<Student> {
-        return try {
-            // Check if roll number is being changed and if it conflicts
-            val existingStudent = studentDao.getStudentByRollNo(student.rollNo)
-            if (existingStudent != null && existingStudent.id != student.id) {
-                return Result.failure(Exception("Roll number already exists"))
+        runBlocking {
+            students.forEach { (rollNo, name) ->
+                val student = Student(
+                    id = UUID.randomUUID().toString(),
+                    rollNo = rollNo,
+                    name = name,
+                    createdAt = System.currentTimeMillis()
+                )
+                studentDao.insertStudent(student)
             }
-            
-            studentDao.updateStudent(student.copy(
-                name = student.name.trim(),
-                rollNo = student.rollNo.trim()
-            ))
-            Result.success(student)
-        } catch (e: Exception) {
-            Result.failure(e)
         }
-    }
-    
-    suspend fun deleteStudent(studentId: String): Result<Unit> {
-        return try {
-            studentDao.deactivateStudent(studentId)
-            Result.success(Unit)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-    
-    suspend fun getActiveStudentCount(): Int {
-        return studentDao.getActiveStudentCount()
-    }
-    
-    suspend fun isRollNoAvailable(rollNo: String, excludeStudentId: String? = null): Boolean {
-        val existingStudent = studentDao.getStudentByRollNo(rollNo)
-        return existingStudent == null || existingStudent.id == excludeStudentId
     }
 }
