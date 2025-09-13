@@ -1,6 +1,4 @@
-
 package com.dailytrack
-import dagger.hilt.android.AndroidEntryPoint
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -13,7 +11,6 @@ import androidx.compose.ui.Modifier
 import com.dailytrack.presentation.ui.DailyTrackApp
 import com.dailytrack.presentation.ui.theme.DailyTrackTheme
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
