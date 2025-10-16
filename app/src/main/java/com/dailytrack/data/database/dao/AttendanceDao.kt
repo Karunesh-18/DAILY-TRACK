@@ -8,12 +8,12 @@ import kotlinx.coroutines.flow.Flow
 interface AttendanceDao {
     
     @Query("""
-        SELECT s.*, ar.id as attendanceRecord_id, ar.studentId as attendanceRecord_studentId, 
-               ar.date as attendanceRecord_date, ar.status as attendanceRecord_status, 
+        SELECT s.*, ar.id as attendanceRecord_id, ar.studentId as attendanceRecord_studentId,
+               ar.date as attendanceRecord_date, ar.status as attendanceRecord_status,
                ar.createdAt as attendanceRecord_createdAt, ar.updatedAt as attendanceRecord_updatedAt
-        FROM students s 
+        FROM students s
         LEFT JOIN attendance_records ar ON s.id = ar.studentId AND ar.date = :date
-        WHERE s.isActive = 1
+        WHERE s.active = 1
         ORDER BY s.rollNo ASC
     """)
     fun getStudentsWithAttendanceForDate(date: String): Flow<List<StudentAttendanceForDate>>
@@ -52,7 +52,7 @@ interface AttendanceDao {
     suspend fun getAttendanceStatsForStudent(studentId: String): AttendanceStats?
     
     @Query("""
-        SELECT 
+        SELECT
             ar.studentId,
             s.name as studentName,
             s.rollNo,
@@ -60,14 +60,14 @@ interface AttendanceDao {
             SUM(CASE WHEN ar.status = 'PRESENT' THEN 1 ELSE 0 END) as attendedClasses
         FROM attendance_records ar
         JOIN students s ON ar.studentId = s.id
-        WHERE s.isActive = 1
+        WHERE s.active = 1
         GROUP BY ar.studentId, s.name, s.rollNo
         ORDER BY s.rollNo ASC
     """)
     fun getAllStudentsAttendanceStats(): Flow<List<StudentAttendanceStatsRaw>>
     
     @Query("""
-        SELECT 
+        SELECT
             :date as date,
             COUNT(DISTINCT s.id) as totalStudents,
             SUM(CASE WHEN ar.status = 'PRESENT' THEN 1 ELSE 0 END) as presentCount,
@@ -75,7 +75,7 @@ interface AttendanceDao {
             SUM(CASE WHEN ar.status = 'OD' THEN 1 ELSE 0 END) as odCount
         FROM students s
         LEFT JOIN attendance_records ar ON s.id = ar.studentId AND ar.date = :date
-        WHERE s.isActive = 1
+        WHERE s.active = 1
     """)
     suspend fun getAttendanceSummaryForDate(date: String): AttendanceSummaryRaw?
     

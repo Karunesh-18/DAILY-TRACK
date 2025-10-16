@@ -111,9 +111,9 @@ class WhatsAppIntegration @Inject constructor() {
             // Absentees section
             if (report.absentees.isNotEmpty()) {
                 appendLine("❌ Absentees (${report.absentees.size}):")
-                report.absentees.forEach { student ->
-                    appendLine("• ${student.rollNo} - ${student.name}")
-                }
+                // report.absentees.forEach { student ->
+                //     appendLine("• ${student.rollNo} - ${student.name}")
+                // }
                 // Add roll number summary line
                 val rollNumbers = report.absentees.joinToString(", ") { it.rollNo }
                 appendLine()

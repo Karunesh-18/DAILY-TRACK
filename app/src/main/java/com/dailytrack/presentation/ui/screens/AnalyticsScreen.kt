@@ -67,21 +67,24 @@ fun AnalyticsScreen(
         ) {
             // Today's Summary Card
             item {
-                uiState.todaysSummary?.let { summary ->
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer
-                        )
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer
+                    )
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp)
                     ) {
-                        Column(
-                            modifier = Modifier.padding(16.dp)
-                        ) {
-                            Text(
-                                text = "Today's Attendance",
-                                style = MaterialTheme.typography.titleLarge,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
+                        Text(
+                            text = "Today's Attendance",
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        uiState.todaysSummary?.let { summary ->
                             Spacer(modifier = Modifier.height(12.dp))
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
@@ -121,6 +124,14 @@ fun AnalyticsScreen(
                                     )
                                 }
                             }
+                        } ?: run {
+                            // Show message when no attendance data for today
+                            Text(
+                                text = "No attendance recorded for today",
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                modifier = Modifier.padding(vertical = 16.dp)
+                            )
                         }
                     }
                 }
@@ -128,40 +139,76 @@ fun AnalyticsScreen(
             
             // Overall Statistics Cards
             item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    AnalyticsCard(
-                        title = "Class Average",
-                        value = "${String.format("%.1f", uiState.classAverage)}%",
-                        modifier = Modifier.weight(1f)
-                    )
-                    AnalyticsCard(
-                        title = "Total Students",
-                        value = "${uiState.totalStudents}",
-                        modifier = Modifier.weight(1f)
-                    )
+                if (uiState.totalStudents > 0) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        AnalyticsCard(
+                            title = "Class Average",
+                            value = "${String.format("%.1f", uiState.classAverage)}%",
+                            modifier = Modifier.weight(1f)
+                        )
+                        AnalyticsCard(
+                            title = "Total Students",
+                            value = "${uiState.totalStudents}",
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                } else {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant
+                        )
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(24.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "No Attendance Data Available",
+                                style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                text = "Start taking attendance to see analytics and statistics",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                textAlign = TextAlign.Center
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Button(
+                                onClick = { viewModel.addSampleAttendanceData() },
+                                enabled = !uiState.isLoading
+                            ) {
+                                Text("Generate Sample Data")
+                            }
+                        }
+                    }
                 }
             }
             
-            item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    AnalyticsCard(
-                        title = "Above 75%",
-                        value = "${uiState.studentsAbove75Percent}",
-                        valueColor = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.weight(1f)
-                    )
-                    AnalyticsCard(
-                        title = "Below 75%",
-                        value = "${uiState.studentsBelow75Percent}",
-                        valueColor = MaterialTheme.colorScheme.error,
-                        modifier = Modifier.weight(1f)
-                    )
+            if (uiState.totalStudents > 0) {
+                item {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        AnalyticsCard(
+                            title = "Above 75%",
+                            value = "${uiState.studentsAbove75Percent}",
+                            valueColor = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.weight(1f)
+                        )
+                        AnalyticsCard(
+                            title = "Below 75%",
+                            value = "${uiState.studentsBelow75Percent}",
+                            valueColor = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
                 }
             }
             

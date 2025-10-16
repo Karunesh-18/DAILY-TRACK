@@ -94,7 +94,26 @@ class StudentRepository @Inject constructor(
             deleteStudent(student.id)
         }
         // Add new students
-        // (addStudent logic removed)
+        addBulkStudents(newStudents)
+    }
+
+    // Add bulk students from the predefined list
+    suspend fun addBulkStudents(studentList: List<Pair<String, String>> = bulkStudentList): Result<Unit> {
+        return try {
+            studentList.forEach { (rollNo, name) ->
+                val student = Student(
+                    id = java.util.UUID.randomUUID().toString(),
+                    rollNo = rollNo.trim(),
+                    name = name.trim(),
+                    createdAt = System.currentTimeMillis(),
+                    active = true
+                )
+                studentDao.insertStudent(student)
+            }
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
     
     fun getAllActiveStudents(): Flow<List<Student>> {

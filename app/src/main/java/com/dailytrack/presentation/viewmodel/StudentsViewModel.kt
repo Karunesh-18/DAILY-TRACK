@@ -146,7 +146,27 @@ class StudentsViewModel @Inject constructor(
             successMessage = null
         )
     }
-    
+
+    fun addBulkStudents() {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true)
+
+            val result = studentRepository.addBulkStudents()
+
+            _uiState.value = if (result.isSuccess) {
+                _uiState.value.copy(
+                    isLoading = false,
+                    successMessage = "Successfully added ${StudentRepository.bulkStudentList.size} students!"
+                )
+            } else {
+                _uiState.value.copy(
+                    isLoading = false,
+                    errorMessage = "Failed to add students: ${result.exceptionOrNull()?.message}"
+                )
+            }
+        }
+    }
+
     suspend fun isRollNoAvailable(rollNo: String, excludeStudentId: String? = null): Boolean {
         return studentRepository.isRollNoAvailable(rollNo, excludeStudentId)
     }

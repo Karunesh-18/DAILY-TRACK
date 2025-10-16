@@ -123,6 +123,24 @@ class AnalyticsViewModel @Inject constructor(
     fun clearErrorMessage() {
         _uiState.value = _uiState.value.copy(errorMessage = null)
     }
+
+    fun addSampleAttendanceData() {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true)
+
+            val result = attendanceRepository.addSampleAttendanceData()
+
+            if (result.isSuccess) {
+                // Refresh data after adding sample data
+                refreshData()
+            } else {
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    errorMessage = "Failed to add sample data: ${result.exceptionOrNull()?.message}"
+                )
+            }
+        }
+    }
 }
 
 data class AnalyticsUiState(

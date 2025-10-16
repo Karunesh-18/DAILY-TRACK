@@ -9,5 +9,5 @@ data class Student(
     val rollNo: String,
     val name: String,
     val createdAt: Long = System.currentTimeMillis(),
-    val isActive: Boolean = true
+    val active: Boolean = true
 )

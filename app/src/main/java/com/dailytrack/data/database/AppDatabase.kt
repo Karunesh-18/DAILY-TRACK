@@ -14,7 +14,7 @@ import com.dailytrack.data.database.entities.Student
 
 @Database(
     entities = [Student::class, AttendanceRecord::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

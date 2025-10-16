@@ -51,13 +51,28 @@ fun StudentsScreen(
         
         Spacer(modifier = Modifier.height(16.dp))
         
-        // Students Count
-        Text(
-            text = "Total Students: ${students.size}",
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-        
+        // Students Count and Bulk Add Button
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Total Students: ${students.size}",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+
+            if (students.isEmpty()) {
+                Button(
+                    onClick = { viewModel.addBulkStudents() },
+                    enabled = !uiState.isLoading
+                ) {
+                    Text("Add Sample Students")
+                }
+            }
+        }
+
         Spacer(modifier = Modifier.height(8.dp))
         
         // Loading State

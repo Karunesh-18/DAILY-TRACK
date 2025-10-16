@@ -166,7 +166,7 @@ fun AttendanceScreen(
                 AttendanceCard(
                     student = studentData.student,
                     attendanceRecord = studentData.attendanceRecord,
-                    onStatusChange = { status ->
+                    onStatusChange =  { status ->
                         viewModel.markAttendance(
                             studentData.student.id,
                             status

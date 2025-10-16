@@ -6,6 +6,7 @@ import com.dailytrack.data.database.entities.*
 import com.dailytrack.utils.AttendanceCalculator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.first
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -163,10 +164,10 @@ class AttendanceRepository @Inject constructor(
     suspend fun getAttendanceReportForDate(date: String): AttendanceReport {
         val summary = getAttendanceSummaryForDate(date)
         val attendanceRecords = attendanceDao.getAttendanceForDate(date)
-        
+
         val absentees = mutableListOf<StudentStatus>()
         val odStudents = mutableListOf<StudentStatus>()
-        
+
         attendanceRecords.forEach { record ->
             val student = studentDao.getStudentById(record.studentId)
             if (student != null) {
@@ -183,13 +184,56 @@ class AttendanceRepository @Inject constructor(
                 }
             }
         }
-        
+
         return AttendanceReport(
             date = date,
             summary = summary ?: AttendanceSummary(date, 0, 0, 0, 0, 0.0),
             absentees = absentees.sortedBy { it.rollNo },
             odStudents = odStudents.sortedBy { it.rollNo }
         )
+    }
+
+    // Add sample attendance data for testing/demo purposes
+    suspend fun addSampleAttendanceData(): Result<Unit> {
+        return try {
+            val students = studentDao.getAllActiveStudents().first()
+            if (students.isEmpty()) {
+                return Result.failure(Exception("No students found. Please add students first."))
+            }
+
+            // Generate attendance for the last 10 days
+            val dateUtils = com.dailytrack.utils.DateUtils()
+            val attendanceRecords = mutableListOf<AttendanceRecord>()
+
+            for (daysAgo in 0..9) {
+                val date = dateUtils.getDateDaysAgo(daysAgo)
+
+                for (student in students) {
+                    // Simulate realistic attendance patterns
+                    val attendanceStatus = when ((0..100).random()) {
+                        in 0..84 -> AttendanceStatus.PRESENT  // 85% present
+                        in 85..94 -> AttendanceStatus.ABSENT  // 10% absent
+                        else -> AttendanceStatus.OD           // 5% OD
+                    }
+
+                    attendanceRecords.add(
+                        AttendanceRecord(
+                            id = UUID.randomUUID().toString(),
+                            studentId = student.id,
+                            date = date,
+                            status = attendanceStatus,
+                            createdAt = System.currentTimeMillis(),
+                            updatedAt = System.currentTimeMillis()
+                        )
+                    )
+                }
+            }
+
+            attendanceDao.insertAttendanceRecords(attendanceRecords)
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 }
 

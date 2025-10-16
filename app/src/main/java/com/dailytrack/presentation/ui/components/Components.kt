@@ -56,12 +56,10 @@ fun DateSelector(
 fun AttendanceCard(
     student: Student,
     attendanceRecord: AttendanceRecord?,
-    onStatusChange: (AttendanceStatus, Boolean) -> Unit,
+    onStatusChange: (AttendanceStatus) -> Unit,
     isEditable: Boolean,
     modifier: Modifier = Modifier
 ) {
-    // Leave form state removed
-    
     Card(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
@@ -74,9 +72,9 @@ fun AttendanceCard(
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Medium
             )
-            
+
             Spacer(modifier = Modifier.height(12.dp))
-            
+
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -97,8 +95,6 @@ fun AttendanceCard(
                     )
                 }
             }
-            
-            // Leave form UI removed
         }
     }
 }
